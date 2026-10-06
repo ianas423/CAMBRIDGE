@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMBRIDGE Opticians - Management System (PKR)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cambridge: {
+                            black: '#111827',
+                            navy: '#1e296b',
+                            blue: '#2563eb',
+                            lightBlue: '#eff6ff',
+                            btnGray: '#e5e7eb',
+                            btnHover: '#d1d5db',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #ebf5ff 0%, #f8fafc 60%, #f1f5f9 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated 3D Floating Glasses Background */
+        .bg-3d-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-eyewear {
+            position: absolute;
+            opacity: 0.12;
+            color: #1e296b;
+            filter: drop-shadow(0 15px 15px rgba(37, 99, 235, 0.25));
+            animation: float3d 18s infinite ease-in-out;
+        }
+
+        @keyframes float3d {
+            0% {
+                transform: translateY(110vh) rotateX(0deg) rotateY(0deg) scale(0.8);
+            }
+            50% {
+                transform: translateY(50vh) rotateX(25deg) rotateY(180deg) scale(1.1);
+            }
+            100% {
+                transform: translateY(-20vh) rotateX(0deg) rotateY(360deg) scale(0.8);
+            }
+        }
+
+        /* 3D Glassmorphism Cards */
+        .glass-3d-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05),
+                        0 20px 25px -5px rgba(37, 99, 235, 0.04),
+                        inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        .glass-3d-card:hover {
+            transform: translateY(-6px) rotateX(2deg) rotateY(-1deg);
+            box-shadow: 0 20px 35px -5px rgba(37, 99, 235, 0.12),
+                        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Light Gray 3D Styled Buttons */
+        .btn-3d-gray {
+            background: linear-gradient(180deg, #ffffff 0%, #f3f4f6 100%);
+            border: 1px solid #d1d5db;
+            color: #1f2937;
+            box-shadow: 0 3px 0 0 #9ca3af, 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.15s ease-in-out;
+        }
+
+        .btn-3d-gray:hover {
+            background: linear-gradient(180deg, #f9fafb 0%, #e5e7eb 100%);
+            border-color: #2563eb;
+            color: #1e296b;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 0 0 #2563eb, 0 6px 12px rgba(37, 99, 235, 0.15);
+        }
+
+        .btn-3d-gray:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 0 #9ca3af, 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Primary Action 3D Button */
+        .btn-3d-primary {
+            background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+            border: 1px solid #1e40af;
+            color: #ffffff;
+            box-shadow: 0 3px 0 0 #1e3a8a, 0 6px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.15s ease-in-out;
+        }
+
+        .btn-3d-primary:hover {
+            background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 0 0 #1e3a8a, 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-3d-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 0 #1e3a8a;
+        }
+
+        .nav-tab-active {
+            background: #ffffff;
+            color: #1e296b;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06), 0 0 0 2px #2563eb;
+            transform: translateY(-2px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-invoice, #printable-invoice * {
+                visibility: visible;
+            }
+            #printable-invoice {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased flex flex-col min-h-screen relative">
+
+    <div class="bg-3d-scene" id="bgScene">
+        <i class="fa-solid fa-glasses floating-eyewear text-6xl" style="left: 5%; animation-delay: 0s; animation-duration: 22s;"></i>
+        <i class="fa-solid fa-eye floating-eyewear text-5xl" style="left: 20%; animation-delay: 4s; animation-duration: 18s;"></i>
+        <i class="fa-solid fa-glasses floating-eyewear text-7xl" style="left: 45%; animation-delay: 8s; animation-duration: 25s;"></i>
+        <i class="fa-solid fa-stroopwafel floating-eyewear text-5xl" style="left: 70%; animation-delay: 2s; animation-duration: 20s;"></i>
+        <i class="fa-solid fa-glasses floating-eyewear text-6xl" style="left: 88%; animation-delay: 6s; animation-duration: 24s;"></i>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="relative z-10 flex-1 flex flex-col max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4">
+
+        <header class="glass-3d-card rounded-2xl p-4 sm:p-5 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-black uppercase font-sans">
+                            CAMBRIDGE
+                        </span>
+                        <div class="flex flex-col justify-center">
+                            <svg class="w-12 h-5 text-black" viewBox="0 0 100 35" fill="currentColor">
+                                <path d="M 5 8 Q 25 2 45 8 Q 50 15 55 8 Q 75 2 95 8 L 98 12 Q 95 28 75 28 Q 55 28 52 14 Q 50 12 48 14 Q 45 28 25 28 Q 5 28 2 12 Z M 12 12 A 2 2 0 1 0 12 16 A 2 2 0 1 0 12 12 M 88 12 A 2 2 0 1 0 88 16 A 2 2 0 1 0 88 12" />
+                            </svg>
+                            <span class="text-xl sm:text-2xl md:text-3xl font-bold text-cambridge-navy tracking-tight -mt-1 font-sans">
+                                opticians
+                            </span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold text-blue-600 tracking-wider uppercase pl-0.5">Management & Financial System (PKR)</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 flex-wrap justify-center sm:justify-end">
+                <button onclick="openModal('quickAddBuyerModal')" class="btn-3d-gray px-3.5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-user-plus text-blue-600"></i>
+                    <span>+ New Buyer</span>
+                </button>
+                <button onclick="switchTab('invoices'); openInvoiceCreator();" class="btn-3d-primary px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>Create Invoice</span>
+                </button>
+            </div>
+        </header>
+
+        <nav class="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar">
+            <button id="tab-dashboard" onclick="switchTab('dashboard')" class="btn-3d-gray nav-tab-active px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </button>
+            <button id="tab-buyers" onclick="switchTab('buyers')" class="btn-3d-gray px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2">
+                <i class="fa-solid fa-users"></i> Buyers (Customers)
+            </button>
+            <button id="tab-sellers" onclick="switchTab('sellers')" class="btn-3d-gray px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2">
+                <i class="fa-solid fa-truck-field"></i> Sellers (Suppliers)
+            </button>
+            <button id="tab-financials" onclick="switchTab('financials')" class="btn-3d-gray px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2">
+                <i class="fa-solid fa-vault"></i> Profit / Loss / Recovery
+            </button>
+            <button id="tab-invoices" onclick="switchTab('invoices')" class="btn-3d-gray px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2">
+                <i class="fa-solid fa-receipt"></i> Invoices
+            </button>
+            <button id="tab-inventory" onclick="switchTab('inventory')" class="btn-3d-gray px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2">
+                <i class="fa-solid fa-glasses"></i> Glasses & Stock
+            </button>
+        </nav>
+
+        <main class="flex-1">
+
+            <!-- ================= DASHBOARD VIEW ================= -->
+            <section id="view-dashboard" class="tab-view space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Total Revenue -->
+                    <div class="glass-3d-card rounded-2xl p-5 border-l-4 border-l-blue-600">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase text-slate-500 tracking-wider">Total Revenue</span>
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+                        </div>
+                        <div id="dash-total-revenue" class="text-2xl sm:text-3xl font-extrabold text-slate-900">Rs. 0</div>
+                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-trend-up"></i> All time sales billed
+                        </p>
+                    </div>
+
+                    <!-- Monthly Profit -->
+                    <div class="glass-3d-card rounded-2xl p-5 border-l-4 border-l-emerald-500">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase text-slate-500 tracking-wider">Monthly Profit</span>
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-arrow-up-right-dots"></i>
+                            </div>
+                        </div>
+                        <div id="dash-monthly-profit" class="text-2xl sm:text-3xl font-extrabold text-emerald-700">Rs. 0</div>
+                        <p class="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check"></i> Net earnings this month
+                        </p>
+                    </div>
+
+                    <!-- Monthly Loss / Expense -->
+                    <div class="glass-3d-card rounded-2xl p-5 border-l-4 border-l-rose-500">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase text-slate-500 tracking-wider">Monthly Loss / Costs</span>
+                            <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-arrow-down-right-dots"></i>
+                            </div>
+                        </div>
+                        <div id="dash-monthly-loss" class="text-2xl sm:text-3xl font-extrabold text-rose-600">Rs. 0</div>
+                        <p class="text-xs text-rose-500 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Supplier payables & damage
+                        </p>
+                    </div>
+
+                    <!-- Total Recovery Outstanding -->
+                    <div class="glass-3d-card rounded-2xl p-5 border-l-4 border-l-amber-500">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase text-slate-500 tracking-wider">Pending Recovery</span>
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-hand-holding-dollar"></i>
+                            </div>
+                        </div>
+                        <div id="dash-pending-recovery" class="text-2xl sm:text-3xl font-extrabold text-amber-700">Rs. 0</div>
+                        <p class="text-xs text-amber-600 font-medium mt-2 flex items-center gap-1">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Receivables from buyers
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive SVG Chart -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="glass-3d-card rounded-2xl p-6 lg:col-span-2">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900">Financial Performance Overview</h3>
+                                <p class="text-xs text-slate-500">Monthly Profit vs. Loss & Recoveries (PKR)</p>
+                            </div>
+                            <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold border border-blue-200">
+                                2026 Analytics
+                            </span>
+                        </div>
+
+                        <div class="w-full h-64 relative flex items-end justify-between pt-6 px-2 border-b border-slate-200">
+                            <div class="absolute inset-0 flex flex-col justify-between pointer-events-none border-b border-slate-100 opacity-60">
+                                <div class="border-b border-dashed border-slate-200 w-full"></div>
+                                <div class="border-b border-dashed border-slate-200 w-full"></div>
+                                <div class="border-b border-dashed border-slate-200 w-full"></div>
+                            </div>
+
+                            <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 500 200">
+                                <defs>
+                                    <linearGradient id="profitGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#2563eb" stop-opacity="0.3"/>
+                                        <stop offset="100%" stop-color="#2563eb" stop-opacity="0.0"/>
+                                    </linearGradient>
+                                </defs>
+                                <path d="M 0 150 Q 100 80, 200 120 T 400 40 L 500 70 L 500 200 L 0 200 Z" fill="url(#profitGrad)" />
+                                <path d="M 0 150 Q 100 80, 200 120 T 400 40 L 500 70" fill="none" stroke="#2563eb" stroke-width="3" />
+                                <path d="M 0 170 Q 100 130, 200 160 T 400 100 L 500 120" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="4,4" />
+                            </svg>
+
+                            <div class="relative z-10 w-full flex justify-between text-xs text-slate-500 font-semibold pt-2 mt-auto">
+                                <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center gap-6 mt-4 text-xs font-semibold">
+                            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> Net Profit</span>
+                            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> Loss / Expenses</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-3d-card rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-4">Quick Metrics</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-slate-50/80 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-3">
+                                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-users text-sm"></i></div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Total Registered Buyers</p>
+                                            <p id="dash-buyer-count" class="text-base font-bold text-slate-800">0</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="switchTab('buyers')" class="text-xs text-blue-600 font-bold hover:underline">View</button>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 bg-slate-50/80 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-3">
+                                        <div class="p-2 bg-purple-100 text-purple-600 rounded-lg"><i class="fa-solid fa-truck-field text-sm"></i></div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Active Optical Sellers</p>
+                                            <p id="dash-seller-count" class="text-base font-bold text-slate-800">0</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="switchTab('sellers')" class="text-xs text-blue-600 font-bold hover:underline">View</button>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 bg-slate-50/80 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-3">
+                                        <div class="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><i class="fa-solid fa-glasses text-sm"></i></div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Frames & Lenses Stock</p>
+                                            <p id="dash-stock-count" class="text-base font-bold text-slate-800">0 units</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="switchTab('inventory')" class="text-xs text-blue-600 font-bold hover:underline">Manage</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-blue-50/90 rounded-xl border border-blue-200 text-center">
+                            <p class="text-xs text-blue-800 font-semibold mb-2">Need a fast optical invoice?</p>
+                            <button onclick="switchTab('invoices'); openInvoiceCreator();" class="w-full btn-3d-primary py-2 rounded-xl text-xs font-bold uppercase tracking-wider">
+                                Launch Invoice Generator
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= BUYERS MANAGEMENT VIEW ================= -->
+            <section id="view-buyers" class="tab-view hidden space-y-6">
+                <div class="glass-3d-card rounded-2xl p-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Buyers (Optical Customers) Directory</h2>
+                            <p class="text-xs text-slate-500">Manage buyer records, optical prescriptions, and outstanding recovery payments.</p>
+                        </div>
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <input type="text" id="buyerSearchInput" oninput="renderBuyersTable()" placeholder="Search buyer name or phone..." class="px-4 py-2 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full sm:w-64 bg-white/90">
+                            <button onclick="openModal('quickAddBuyerModal')" class="btn-3d-primary px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap">
+                                + Add Buyer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-100/90 text-slate-700 font-bold text-xs uppercase tracking-wider border-b border-slate-200">
+                                    <th class="p-3.5">Buyer Name & ID</th>
+                                    <th class="p-3.5">Contact Details</th>
+                                    <th class="p-3.5">Optical Prescription</th>
+                                    <th class="p-3.5">Total Purchases</th>
+                                    <th class="p-3.5">Pending Recovery</th>
+                                    <th class="p-3.5 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="buyersTableBody" class="divide-y divide-slate-100 font-medium">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= SELLERS MANAGEMENT VIEW ================= -->
+            <section id="view-sellers" class="tab-view hidden space-y-6">
+                <div class="glass-3d-card rounded-2xl p-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Sellers & Frame Suppliers Directory</h2>
+                            <p class="text-xs text-slate-500">Track optical wholesalers, raw frame supplies, lens labs, and payout balances.</p>
+                        </div>
+                        <button onclick="openModal('addSellerModal')" class="btn-3d-primary px-4 py-2 rounded-xl text-sm font-semibold">
+                            + Add New Supplier
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-100/90 text-slate-700 font-bold text-xs uppercase tracking-wider border-b border-slate-200">
+                                    <th class="p-3.5">Supplier Name</th>
+                                    <th class="p-3.5">Company / Optics Lab</th>
+                                    <th class="p-3.5">Items Supplied</th>
+                                    <th class="p-3.5">Contact</th>
+                                    <th class="p-3.5">Pending Payable</th>
+                                    <th class="p-3.5 text-center">Status</th>
+                                    <th class="p-3.5 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sellersTableBody" class="divide-y divide-slate-100 font-medium">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= FINANCIALS VIEW ================= -->
+            <section id="view-financials" class="tab-view hidden space-y-6">
+                <div class="glass-3d-card rounded-2xl p-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Financial Audit Log: Profit, Loss & Recovery</h2>
+                            <p class="text-xs text-slate-500">Detailed account breakdown of income, optical lens fabrication costs, and recovery status in Pakistani Rupees.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-semibold text-slate-500">Filter:</span>
+                            <select id="financialFilter" onchange="renderFinancialsLog()" class="px-3 py-1.5 text-sm rounded-xl border border-slate-300 bg-white/90 focus:outline-none">
+                                <option value="ALL">All Transactions</option>
+                                <option value="PROFIT">Profits / Sales</option>
+                                <option value="LOSS">Losses / Expenses</option>
+                                <option value="RECOVERY">Pending Recoveries</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                            <span class="text-xs font-bold text-emerald-700 uppercase">Calculated Total Profit</span>
+                            <p id="fin-total-profit" class="text-2xl font-black text-emerald-800 mt-1">Rs. 0</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200">
+                            <span class="text-xs font-bold text-rose-700 uppercase">Total Operational Cost / Loss</span>
+                            <p id="fin-total-loss" class="text-2xl font-black text-rose-800 mt-1">Rs. 0</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
+                            <span class="text-xs font-bold text-amber-700 uppercase">Total Active Recovery Outstanding</span>
+                            <p id="fin-total-recovery" class="text-2xl font-black text-amber-800 mt-1">Rs. 0</p>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-100/90 text-slate-700 font-bold text-xs uppercase tracking-wider border-b border-slate-200">
+                                    <th class="p-3.5">Date</th>
+                                    <th class="p-3.5">Type</th>
+                                    <th class="p-3.5">Description / Ref</th>
+                                    <th class="p-3.5">Party Involved</th>
+                                    <th class="p-3.5 text-right">Amount (PKR)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="financialsTableBody" class="divide-y divide-slate-100 font-medium">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= INVOICE GENERATOR VIEW ================= -->
+            <section id="view-invoices" class="tab-view hidden space-y-6">
+                <div class="glass-3d-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Interactive Optical Invoice Creator</h2>
+                            <p class="text-xs text-slate-500">Generate prescription billing for eyewear frames, customized lenses, and optical coatings in Pakistani Rupees.</p>
+                        </div>
+                        <span id="invoice-number-display" class="px-3 py-1 bg-slate-100 font-mono text-xs font-bold text-slate-700 rounded-lg">INV-2026-001</span>
+                    </div>
+
+                    <form id="invoiceForm" onsubmit="handleGenerateInvoice(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Select Buyer / Customer</label>
+                                <select id="invBuyerSelect" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white/90 focus:ring-2 focus:ring-blue-500">
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Invoice Date</label>
+                                <input type="date" id="invDate" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white/90">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Payment Status</label>
+                                <select id="invPaymentStatus" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white/90">
+                                    <option value="Paid">Paid in Full</option>
+                                    <option value="Partial">Partial Payment (Add Recovery)</option>
+                                    <option value="Unpaid">Unpaid / Credit</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Prescription Details (Optometry Grid) -->
+                        <div class="p-4 bg-blue-50/60 rounded-xl border border-blue-200">
+                            <h4 class="text-xs font-extrabold uppercase text-blue-900 tracking-wider mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-eye"></i> Eye Prescription Specs (OD / OS)
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white/80 p-3 rounded-lg border border-blue-100">
+                                    <span class="text-xs font-bold text-blue-700 block mb-2">Right Eye (O.D.)</span>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <input type="text" id="odSph" placeholder="SPH (-2.25)" class="px-2 py-1 text-xs border rounded">
+                                        <input type="text" id="odCyl" placeholder="CYL (-0.50)" class="px-2 py-1 text-xs border rounded">
+                                        <input type="text" id="odAxis" placeholder="AXIS (180°)" class="px-2 py-1 text-xs border rounded">
+                                    </div>
+                                </div>
+                                <div class="bg-white/80 p-3 rounded-lg border border-blue-100">
+                                    <span class="text-xs font-bold text-blue-700 block mb-2">Left Eye (O.S.)</span>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <input type="text" id="osSph" placeholder="SPH (-2.00)" class="px-2 py-1 text-xs border rounded">
+                                        <input type="text" id="osCyl" placeholder="CYL (-0.75)" class="px-2 py-1 text-xs border rounded">
+                                        <input type="text" id="osAxis" placeholder="AXIS (175°)" class="px-2 py-1 text-xs border rounded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Itemized Optical Order -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="text-xs font-bold text-slate-700 uppercase">Optical Order Items</label>
+                                <button type="button" onclick="addInvoiceItemRow()" class="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">
+                                    <i class="fa-solid fa-plus"></i> Add Item Line
+                                </button>
+                            </div>
+                            <div id="invoiceItemsContainer" class="space-y-3">
+                                <div class="invoice-item-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                                    <div class="col-span-5">
+                                        <select onchange="updateItemPrice(this)" class="item-select w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-300">
+                                        </select>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="number" min="1" value="1" oninput="calculateInvoiceTotals()" class="item-qty w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-300" placeholder="Qty">
+                                    </div>
+                                    <div class="col-span-2">
+                                        <input type="number" step="1" oninput="calculateInvoiceTotals()" class="item-price w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-300" placeholder="Price (Rs)">
+                                    </div>
+                                    <div class="col-span-2 text-right font-bold text-xs text-slate-800 item-subtotal">
+                                        Rs. 0
+                                    </div>
+                                    <div class="col-span-1 text-center">
+                                        <button type="button" onclick="removeInvoiceItemRow(this)" class="text-rose-500 hover:text-rose-700 text-xs"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Financial Calculation -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-200">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Customer Paid Amount (Rs.)</label>
+                                <input type="number" id="invPaidAmount" step="1" value="0" oninput="calculateInvoiceTotals()" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white/90 font-bold text-emerald-700">
+                                <p class="text-[11px] text-slate-500 mt-1">Difference will be logged into Pending Recovery automatically.</p>
+                            </div>
+                            <div class="space-y-1.5 text-sm bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <div class="flex justify-between text-slate-600">
+                                    <span>Subtotal:</span>
+                                    <span id="invCalcSubtotal" class="font-bold text-slate-800">Rs. 0</span>
+                                </div>
+                                <div class="flex justify-between text-slate-600">
+                                    <span>Discount (Rs.):</span>
+                                    <input type="number" id="invDiscount" value="0" oninput="calculateInvoiceTotals()" class="w-24 text-right px-2 py-0.5 text-xs border rounded">
+                                </div>
+                                <div class="flex justify-between text-slate-600 border-b border-slate-200 pb-2">
+                                    <span>Tax (5%):</span>
+                                    <span id="invCalcTax" class="font-bold text-slate-800">Rs. 0</span>
+                                </div>
+                                <div class="flex justify-between text-base font-extrabold text-blue-900 pt-1">
+                                    <span>Total Invoice:</span>
+                                    <span id="invCalcGrandTotal">Rs. 0</span>
+                                </div>
+                                <div class="flex justify-between text-xs font-bold text-amber-700">
+                                    <span>Balance Unpaid (Recovery):</span>
+                                    <span id="invCalcBalance">Rs. 0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3">
+                            <button type="submit" class="btn-3d-primary px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-print"></i> Generate & Save Invoice
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Existing Invoices History Table -->
+                <div class="glass-3d-card rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Saved Invoices History</h3>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-100/90 text-slate-700 font-bold text-xs uppercase tracking-wider border-b border-slate-200">
+                                    <th class="p-3.5">Invoice #</th>
+                                    <th class="p-3.5">Date</th>
+                                    <th class="p-3.5">Buyer</th>
+                                    <th class="p-3.5">Total Amount</th>
+                                    <th class="p-3.5">Paid</th>
+                                    <th class="p-3.5">Status</th>
+                                    <th class="p-3.5 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoicesHistoryTableBody" class="divide-y divide-slate-100 font-medium">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= INVENTORY VIEW ================= -->
+            <section id="view-inventory" class="tab-view hidden space-y-6">
+                <div class="glass-3d-card rounded-2xl p-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Glasses, Frames & Lenses Catalog</h2>
+                            <p class="text-xs text-slate-500">Manage optical frame models, designer sunglasses, and prescription lens types with prices in PKR.</p>
+                        </div>
+                        <button onclick="openModal('addStockModal')" class="btn-3d-primary px-4 py-2 rounded-xl text-sm font-semibold">
+                            + Add New Optical Item
+                        </button>
+                    </div>
+
+                    <div id="inventoryCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- JS Populated Cards -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="glass-3d-card rounded-2xl p-4 mt-8 text-center text-xs text-slate-500">
+            <p>© 2026 <strong>CAMBRIDGE opticians</strong>. Optical Business & Management System. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Quick Add Buyer Modal -->
+    <div id="quickAddBuyerModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-3d-card max-w-md w-full rounded-2xl p-6 relative">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Add New Optical Buyer</h3>
+            <form onsubmit="handleSaveBuyer(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name</label>
+                    <input type="text" id="modalBuyerName" required placeholder="e.g. Sarah Jenkins" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contact Phone</label>
+                    <input type="text" id="modalBuyerPhone" required placeholder="+92 300 1234567" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Prescription Summary / Lens Type</label>
+                    <input type="text" id="modalBuyerRx" placeholder="OD: -2.00, OS: -1.75 (Progressive)" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('quickAddBuyerModal')" class="btn-3d-gray px-4 py-2 rounded-xl text-xs font-bold">Cancel</button>
+                    <button type="submit" class="btn-3d-primary px-4 py-2 rounded-xl text-xs font-bold">Save Buyer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Seller / Supplier Modal -->
+    <div id="addSellerModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-3d-card max-w-md w-full rounded-2xl p-6 relative">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Add Optical Frame Supplier</h3>
+            <form onsubmit="handleSaveSeller(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Supplier / Contact Name</label>
+                    <input type="text" id="modalSellerName" required placeholder="e.g. Robert Vance" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Company / Optical Wholesaler</label>
+                    <input type="text" id="modalSellerCompany" required placeholder="e.g. Cambridge Vision Supplies" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Items Supplied</label>
+                    <input type="text" id="modalSellerItems" placeholder="Titanium Frames, Anti-Glare Lenses" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Initial Pending Payable (Rs.)</label>
+                    <input type="number" id="modalSellerDues" value="0" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('addSellerModal')" class="btn-3d-gray px-4 py-2 rounded-xl text-xs font-bold">Cancel</button>
+                    <button type="submit" class="btn-3d-primary px-4 py-2 rounded-xl text-xs font-bold">Save Supplier</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Stock Modal -->
+    <div id="addStockModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-3d-card max-w-md w-full rounded-2xl p-6 relative">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Add Eyewear / Stock Item</h3>
+            <form onsubmit="handleSaveStock(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Item Title / Model Name</label>
+                    <input type="text" id="modalStockName" required placeholder="e.g. Cambridge Aviator Matte Black" class="w-full px-3 py-2 text-sm border rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Category</label>
+                    <select id="modalStockCategory" class="w-full px-3 py-2 text-sm border rounded-xl">
+                        <option value="Optical Frame">Optical Frame</option>
+                        <option value="Sunglasses">Sunglasses</option>
+                        <option value="Prescription Lens">Prescription Lens</option>
+                        <option value="Contact Lens">Contact Lens</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Retail Price (Rs.)</label>
+                        <input type="number" id="modalStockPrice" step="1" required placeholder="4500" class="w-full px-3 py-2 text-sm border rounded-xl">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Stock Quantity</label>
+                        <input type="number" id="modalStockQty" required placeholder="15" class="w-full px-3 py-2 text-sm border rounded-xl">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('addStockModal')" class="btn-3d-gray px-4 py-2 rounded-xl text-xs font-bold">Cancel</button>
+                    <button type="submit" class="btn-3d-primary px-4 py-2 rounded-xl text-xs font-bold">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Printable Invoice Modal Preview -->
+    <div id="printableInvoiceModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-2xl w-full rounded-2xl p-8 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto" id="printable-invoice">
+            <button onclick="closeModal('printableInvoiceModal')" class="no-print absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm">✕</button>
+
+            <div class="flex items-center justify-between border-b pb-6 mb-6">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-2xl font-black tracking-tight text-black uppercase font-sans">
+                            CAMBRIDGE
+                        </span>
+                        <div class="flex flex-col">
+                            <svg class="w-10 h-4 text-black" viewBox="0 0 100 35" fill="currentColor">
+                                <path d="M 5 8 Q 25 2 45 8 Q 50 15 55 8 Q 75 2 95 8 L 98 12 Q 95 28 75 28 Q 55 28 52 14 Q 50 12 48 14 Q 45 28 25 28 Q 5 28 2 12 Z M 12 12 A 2 2 0 1 0 12 16 A 2 2 0 1 0 12 12 M 88 12 A 2 2 0 1 0 88 16 A 2 2 0 1 0 88 12" />
+                            </svg>
+                            <span class="text-xl font-bold text-cambridge-navy tracking-tight -mt-1 font-sans">
+                                opticians
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500">Premium Eyewear & Optometry Clinic</p>
+                    <p class="text-xs text-slate-500">Phone: +92 (300) 555-OPTIC | Email: info@cambridgeopticians.pk</p>
+                </div>
+                <div class="text-right">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase">Official Receipt</span>
+                    <p id="pvInvNumber" class="text-sm font-extrabold text-slate-800 mt-2">INV-2026-001</p>
+                    <p id="pvInvDate" class="text-xs text-slate-500">Date: Oct 24, 2026</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div>
+                    <p class="text-slate-400 font-bold uppercase text-[10px]">Billed To</p>
+                    <p id="pvBuyerName" class="text-sm font-bold text-slate-800">John Doe</p>
+                    <p id="pvBuyerPhone" class="text-slate-600">+92 300 0000000</p>
+                </div>
+                <div>
+                    <p class="text-slate-400 font-bold uppercase text-[10px]">Prescription Record</p>
+                    <p id="pvRxDetails" class="font-mono text-slate-700">OD: -2.00 SPH | OS: -1.75 SPH</p>
+                </div>
+            </div>
+
+            <table class="w-full text-xs text-left mb-6 border-collapse">
+                <thead>
+                    <tr class="border-b-2 border-slate-300 uppercase text-slate-500 font-bold">
+                        <th class="py-2">Item / Service Description</th>
+                        <th class="py-2 text-center">Qty</th>
+                        <th class="py-2 text-right">Unit Price (PKR)</th>
+                        <th class="py-2 text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="pvItemsTableBody" class="divide-y divide-slate-100">
+                    <!-- Populated dynamically -->
+                </tbody>
+            </table>
+
+            <div class="flex justify-end border-t pt-4 text-xs">
+                <div class="w-56 space-y-1">
+                    <div class="flex justify-between text-slate-600">
+                        <span>Subtotal:</span>
+                        <span id="pvSubtotal" class="font-bold">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Tax / Discount:</span>
+                        <span id="pvTax" class="font-bold">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between text-sm font-extrabold text-blue-900 border-t pt-2">
+                        <span>Grand Total:</span>
+                        <span id="pvGrandTotal">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Amount Paid:</span>
+                        <span id="pvPaid" class="font-bold text-emerald-600">Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Balance Due:</span>
+                        <span id="pvBalance" class="font-bold text-amber-600">Rs. 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 border-t pt-4 text-center text-[11px] text-slate-400">
+                <p>Thank you for choosing Cambridge Opticians! Lenses carry a 1-year anti-scratch warranty.</p>
+            </div>
+
+            <div class="no-print mt-6 flex justify-end gap-3">
+                <button onclick="window.print()" class="btn-3d-primary px-5 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Print Invoice
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Default PKR Mock Data Structures
+        const initialData = {
+            buyers: [
+                { id: 'BUY-101', name: 'Eleanor Vance', phone: '+92 300 2345678', rx: 'OD: -2.25 SPH, -0.50 CYL | OS: -2.00 SPH', purchases: 12500, pendingRecovery: 1500 },
+                { id: 'BUY-102', name: 'Marcus Brody', phone: '+92 321 8765432', rx: 'OD: +1.50 SPH (Reading) | OS: +1.75 SPH', purchases: 6500, pendingRecovery: 0 },
+                { id: 'BUY-103', name: 'Dr. Henry Walton', phone: '+92 333 4321098', rx: 'OD: -3.00 SPH, OS: -3.25 SPH (Blue Cut)', purchases: 18500, pendingRecovery: 4000 }
+            ],
+            sellers: [
+                { id: 'SEL-201', name: 'David Miller', company: 'LuxOptics Wholesale PK', items: 'Titanium & Acetate Frames', phone: '+92 42 35501122', dues: 25000, status: 'Active' },
+                { id: 'SEL-202', name: 'Sarah Connor', company: 'Zeiss Lens Fabrication Lab', items: 'Anti-Glare & Photochromic Lenses', phone: '+92 21 34505566', dues: 12000, status: 'Active' }
+            ],
+            inventory: [
+                { id: 'OPT-10', name: 'Cambridge Classic Wayfarer Black', category: 'Optical Frame', price: 4500, stock: 18, color: '#111827' },
+                { id: 'OPT-11', name: 'Cambridge Titanium Rimless Gold', category: 'Optical Frame', price: 8500, stock: 8, color: '#eab308' },
+                { id: 'OPT-12', name: 'Anti-Reflective Blue-Cut Single Vision', category: 'Prescription Lens', price: 2500, stock: 45, color: '#2563eb' },
+                { id: 'OPT-13', name: 'Progressive Digital HD Lenses', category: 'Prescription Lens', price: 6500, stock: 12, color: '#7c3aed' },
+                { id: 'OPT-14', name: 'Polarized Aviator Sunglasses', category: 'Sunglasses', price: 5500, stock: 5, color: '#059669' }
+            ],
+            invoices: [
+                {
+                    invNum: 'INV-2026-001',
+                    date: '2026-10-01',
+                    buyerName: 'Eleanor Vance',
+                    buyerPhone: '+92 300 2345678',
+                    rxDetails: 'OD: -2.25 SPH | OS: -2.00 SPH',
+                    items: [
+                        { title: 'Cambridge Classic Wayfarer Black', qty: 1, price: 4500 },
+                        { title: 'Anti-Reflective Blue-Cut Single Vision', qty: 1, price: 2500 }
+                    ],
+                    subtotal: 7000,
+                    tax: 350,
+                    total: 7350,
+                    paid: 5850,
+                    balance: 1500,
+                    status: 'Partial'
+                }
+            ],
+            financials: [
+                { date: '2026-10-01', type: 'PROFIT', desc: 'Sale Invoice INV-2026-001', party: 'Eleanor Vance', amount: 5850 },
+                { date: '2026-10-01', type: 'RECOVERY', desc: 'Pending Balance INV-2026-001', party: 'Eleanor Vance', amount: 1500 },
+                { date: '2026-09-28', type: 'LOSS', desc: 'Frame Wholesale Batch Order', party: 'LuxOptics Wholesale PK', amount: 25000 }
+            ]
+        };
+
+        // Format Currency as PKR Rupees
+        function formatPKR(val) {
+            return `Rs. ${Math.round(val).toLocaleString('en-PK')}`;
+        }
+
+        let appState = JSON.parse(localStorage.getItem('cambridge_optics_state_pkr')) || initialData;
+
+        function saveState() {
+            localStorage.setItem('cambridge_optics_state_pkr', JSON.stringify(appState));
+            renderAllViews();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('nav button').forEach(el => {
+                el.classList.remove('nav-tab-active');
+            });
+
+            const targetView = document.getElementById('view-' + tabId);
+            const targetBtn = document.getElementById('tab-' + tabId);
+
+            if (targetView) targetView.classList.remove('hidden');
+            if (targetBtn) targetBtn.classList.add('nav-tab-active');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function renderAllViews() {
+            renderDashboard();
+            renderBuyersTable();
+            renderSellersTable();
+            renderFinancialsLog();
+            renderInventoryCards();
+            renderInvoicesHistory();
+            populateInvoiceSelects();
+        }
+
+        function renderDashboard() {
+            let totalRev = appState.invoices.reduce((acc, inv) => acc + (inv.paid || 0), 0);
+            let totalProfit = appState.financials.filter(f => f.type === 'PROFIT').reduce((acc, f) => acc + f.amount, 0);
+            let totalLoss = appState.financials.filter(f => f.type === 'LOSS').reduce((acc, f) => acc + f.amount, 0);
+            let totalRecovery = appState.buyers.reduce((acc, b) => acc + (b.pendingRecovery || 0), 0);
+
+            document.getElementById('dash-total-revenue').innerText = formatPKR(totalRev);
+            document.getElementById('dash-monthly-profit').innerText = formatPKR(totalProfit);
+            document.getElementById('dash-monthly-loss').innerText = formatPKR(totalLoss);
+            document.getElementById('dash-pending-recovery').innerText = formatPKR(totalRecovery);
+
+            document.getElementById('dash-buyer-count').innerText = appState.buyers.length;
+            document.getElementById('dash-seller-count').innerText = appState.sellers.length;
+            
+            let stockUnits = appState.inventory.reduce((acc, i) => acc + parseInt(i.stock || 0), 0);
+            document.getElementById('dash-stock-count').innerText = `${stockUnits} units`;
+        }
+
+        function renderBuyersTable() {
+            const tbody = document.getElementById('buyersTableBody');
+            const search = (document.getElementById('buyerSearchInput').value || '').toLowerCase();
+            tbody.innerHTML = '';
+
+            const filtered = appState.buyers.filter(b => 
+                b.name.toLowerCase().includes(search) || b.phone.toLowerCase().includes(search)
+            );
+
+            filtered.forEach(b => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-blue-50/40 transition-colors';
+                tr.innerHTML = `
+                    <td class="p-3.5">
+                        <span class="font-bold text-slate-900 block">${b.name}</span>
+                        <span class="text-xs text-slate-400 font-mono">${b.id}</span>
+                    </td>
+                    <td class="p-3.5 text-slate-600">${b.phone}</td>
+                    <td class="p-3.5 text-xs font-mono text-blue-900">${b.rx || 'N/A'}</td>
+                    <td class="p-3.5 font-bold text-slate-800">${formatPKR(b.purchases || 0)}</td>
+                    <td class="p-3.5">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-extrabold ${b.pendingRecovery > 0 ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800'}">
+                            ${formatPKR(b.pendingRecovery || 0)}
+                        </span>
+                    </td>
+                    <td class="p-3.5 text-center">
+                        <button onclick="deleteBuyer('${b.id}')" class="text-rose-500 hover:text-rose-700 text-xs px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderSellersTable() {
+            const tbody = document.getElementById('sellersTableBody');
+            tbody.innerHTML = '';
+
+            appState.sellers.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-blue-50/40 transition-colors';
+                tr.innerHTML = `
+                    <td class="p-3.5 font-bold text-slate-900">${s.name}</td>
+                    <td class="p-3.5 text-slate-700">${s.company}</td>
+                    <td class="p-3.5 text-xs text-slate-600">${s.items}</td>
+                    <td class="p-3.5 text-slate-600">${s.phone}</td>
+                    <td class="p-3.5 font-bold text-rose-600">${formatPKR(s.dues || 0)}</td>
+                    <td class="p-3.5 text-center">
+                        <span class="px-2 py-0.5 text-xs rounded-full bg-emerald-100 text-emerald-800 font-bold">${s.status}</span>
+                    </td>
+                    <td class="p-3.5 text-center">
+                        <button onclick="deleteSeller('${s.id}')" class="text-rose-500 hover:text-rose-700 text-xs"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderFinancialsLog() {
+            const tbody = document.getElementById('financialsTableBody');
+            const filter = document.getElementById('financialFilter').value;
+            tbody.innerHTML = '';
+
+            let filtered = appState.financials;
+            if (filter !== 'ALL') {
+                filtered = appState.financials.filter(f => f.type === filter);
+            }
+
+            let totalP = appState.financials.filter(f => f.type === 'PROFIT').reduce((a,b)=>a+b.amount,0);
+            let totalL = appState.financials.filter(f => f.type === 'LOSS').reduce((a,b)=>a+b.amount,0);
+            let totalR = appState.buyers.reduce((a,b)=>a+(b.pendingRecovery||0),0);
+
+            document.getElementById('fin-total-profit').innerText = formatPKR(totalP);
+            document.getElementById('fin-total-loss').innerText = formatPKR(totalL);
+            document.getElementById('fin-total-recovery').innerText = formatPKR(totalR);
+
+            filtered.forEach(f => {
+                const tr = document.createElement('tr');
+                let badgeClass = f.type === 'PROFIT' ? 'bg-emerald-100 text-emerald-800' : (f.type === 'LOSS' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800');
+                
+                tr.innerHTML = `
+                    <td class="p-3.5 text-xs text-slate-500">${f.date}</td>
+                    <td class="p-3.5">
+                        <span class="px-2 py-0.5 text-[10px] font-extrabold rounded-full ${badgeClass}">${f.type}</span>
+                    </td>
+                    <td class="p-3.5 text-slate-800 font-medium">${f.desc}</td>
+                    <td class="p-3.5 text-slate-600">${f.party}</td>
+                    <td class="p-3.5 text-right font-bold ${f.type === 'PROFIT' ? 'text-emerald-700' : (f.type === 'LOSS' ? 'text-rose-600' : 'text-amber-700')}">
+                        ${f.type === 'LOSS' ? '-' : '+'}${formatPKR(f.amount)}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderInventoryCards() {
+            const grid = document.getElementById('inventoryCardsGrid');
+            grid.innerHTML = '';
+
+            appState.inventory.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'glass-3d-card rounded-2xl p-5 flex flex-col justify-between border-t-4 border-t-blue-600 relative';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800 uppercase">${item.category}</span>
+                            <span class="text-xs font-bold ${item.stock < 10 ? 'text-rose-600 bg-rose-50 px-2 py-0.5 rounded' : 'text-slate-500'}">Stock: ${item.stock}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">${item.name}</h4>
+                        <p class="text-2xl font-black text-blue-900 mb-4">${formatPKR(item.price)}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-3 border-t border-slate-200 text-xs">
+                        <span class="text-slate-400 font-mono">ID: ${item.id}</span>
+                        <button onclick="deleteStock('${item.id}')" class="text-rose-500 hover:text-rose-700 font-bold"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderInvoicesHistory() {
+            const tbody = document.getElementById('invoicesHistoryTableBody');
+            tbody.innerHTML = '';
+
+            appState.invoices.forEach(inv => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-blue-50/40 transition-colors';
+                tr.innerHTML = `
+                    <td class="p-3.5 font-mono font-bold text-blue-900">${inv.invNum}</td>
+                    <td class="p-3.5 text-xs text-slate-500">${inv.date}</td>
+                    <td class="p-3.5 font-bold text-slate-800">${inv.buyerName}</td>
+                    <td class="p-3.5 font-bold text-slate-900">${formatPKR(inv.total)}</td>
+                    <td class="p-3.5 text-emerald-700 font-bold">${formatPKR(inv.paid)}</td>
+                    <td class="p-3.5">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-extrabold ${inv.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                            ${inv.status}
+                        </span>
+                    </td>
+                    <td class="p-3.5 text-center">
+                        <button onclick="viewInvoiceModal('${inv.invNum}')" class="btn-3d-gray px-3 py-1 rounded-lg text-xs font-bold text-blue-700"><i class="fa-solid fa-eye"></i> View</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function populateInvoiceSelects() {
+            const buyerSelect = document.getElementById('invBuyerSelect');
+            if (!buyerSelect) return;
+            
+            buyerSelect.innerHTML = appState.buyers.map(b => `<option value="${b.id}">${b.name} (${b.phone})</option>`).join('');
+
+            document.getElementById('invDate').value = new Date().toISOString().split('T')[0];
+
+            const nextInvNum = `INV-2026-${String(appState.invoices.length + 1).padStart(3, '0')}`;
+            document.getElementById('invoice-number-display').innerText = nextInvNum;
+
+            populateItemSelectOptions();
+        }
+
+        function populateItemSelectOptions() {
+            const selects = document.querySelectorAll('.item-select');
+            selects.forEach(sel => {
+                if (sel.children.length === 0) {
+                    sel.innerHTML = appState.inventory.map(i => `<option value="${i.id}" data-price="${i.price}">${i.name} (Rs. ${i.price})</option>`).join('');
+                }
+            });
+            calculateInvoiceTotals();
+        }
+
+        function addInvoiceItemRow() {
+            const container = document.getElementById('invoiceItemsContainer');
+            const div = document.createElement('div');
+            div.className = 'invoice-item-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200';
+            div.innerHTML = `
+                <div class="col-span-5">
+                    <select onchange="updateItemPrice(this)" class="item-select w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-300">
+                        ${appState.inventory.map(i => `<option value="${i.id}" data-price="${i.price}">${i.name} (Rs. ${i.price})</option>`).join('')}
+                    </select>
+                </div>
+                <div class="col-span-2">
+                    <input type="number" min="1" value="1" oninput="calculateInvoiceTotals()" class="item-qty w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-300" placeholder="Qty">
+                </div>
+                <div class="col-span-2">
+                    <input type="number" step="1" oninput="calculateInvoiceTotals()" class="item-price w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-300" placeholder="Price (Rs)">
+                </div>
+                <div class="col-span-2 text-right font-bold text-xs text-slate-800 item-subtotal">
+                    Rs. 0
+                </div>
+                <div class="col-span-1 text-center">
+                    <button type="button" onclick="removeInvoiceItemRow(this)" class="text-rose-500 hover:text-rose-700 text-xs"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            container.appendChild(div);
+            const newSelect = div.querySelector('.item-select');
+            updateItemPrice(newSelect);
+        }
+
+        function removeInvoiceItemRow(btn) {
+            const rows = document.querySelectorAll('.invoice-item-row');
+            if (rows.length > 1) {
+                btn.closest('.invoice-item-row').remove();
+                calculateInvoiceTotals();
+            }
+        }
+
+        function updateItemPrice(selectEl) {
+            const selectedOpt = selectEl.options[selectEl.selectedIndex];
+            const price = selectedOpt ? selectedOpt.getAttribute('data-price') : 0;
+            const row = selectEl.closest('.invoice-item-row');
+            row.querySelector('.item-price').value = price;
+            calculateInvoiceTotals();
+        }
+
+        function calculateInvoiceTotals() {
+            let subtotal = 0;
+            const rows = document.querySelectorAll('.invoice-item-row');
+            rows.forEach(r => {
+                const qty = parseFloat(r.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(r.querySelector('.item-price').value) || 0;
+                const lineTotal = qty * price;
+                r.querySelector('.item-subtotal').innerText = formatPKR(lineTotal);
+                subtotal += lineTotal;
+            });
+
+            const discount = parseFloat(document.getElementById('invDiscount').value) || 0;
+            const tax = (subtotal - discount) * 0.05;
+            const grandTotal = Math.max(0, subtotal - discount + tax);
+            
+            const paid = parseFloat(document.getElementById('invPaidAmount').value) || 0;
+            const balance = Math.max(0, grandTotal - paid);
+
+            document.getElementById('invCalcSubtotal').innerText = formatPKR(subtotal);
+            document.getElementById('invCalcTax').innerText = formatPKR(tax);
+            document.getElementById('invCalcGrandTotal').innerText = formatPKR(grandTotal);
+            document.getElementById('invCalcBalance').innerText = formatPKR(balance);
+        }
+
+        function openInvoiceCreator() {
+            document.querySelectorAll('.invoice-item-row').forEach((row, idx) => {
+                if (idx > 0) row.remove();
+            });
+            const firstSelect = document.querySelector('.item-select');
+            if (firstSelect) updateItemPrice(firstSelect);
+        }
+
+        function handleGenerateInvoice(e) {
+            e.preventDefault();
+            const buyerId = document.getElementById('invBuyerSelect').value;
+            const buyer = appState.buyers.find(b => b.id === buyerId);
+            if (!buyer) return;
+
+            const invNum = document.getElementById('invoice-number-display').innerText;
+            const date = document.getElementById('invDate').value;
+            const paid = parseFloat(document.getElementById('invPaidAmount').value) || 0;
+
+            const odSph = document.getElementById('odSph').value;
+            const osSph = document.getElementById('osSph').value;
+            const rxString = `OD: ${odSph || 'Plano'} | OS: ${osSph || 'Plano'}`;
+
+            const items = [];
+            let subtotal = 0;
+            document.querySelectorAll('.invoice-item-row').forEach(r => {
+                const select = r.querySelector('.item-select');
+                const title = select.options[select.selectedIndex].text.split(' (Rs.')[0];
+                const qty = parseInt(r.querySelector('.item-qty').value) || 1;
+                const price = parseFloat(r.querySelector('.item-price').value) || 0;
+                items.push({ title, qty, price });
+                subtotal += qty * price;
+            });
+
+            const discount = parseFloat(document.getElementById('invDiscount').value) || 0;
+            const tax = (subtotal - discount) * 0.05;
+            const grandTotal = subtotal - discount + tax;
+            const balance = Math.max(0, grandTotal - paid);
+            const status = balance === 0 ? 'Paid' : (paid > 0 ? 'Partial' : 'Unpaid');
+
+            const newInv = {
+                invNum, date, buyerName: buyer.name, buyerPhone: buyer.phone,
+                rxDetails: rxString, items, subtotal, tax, total: grandTotal,
+                paid, balance, status
+            };
+
+            appState.invoices.unshift(newInv);
+
+            buyer.purchases = (buyer.purchases || 0) + grandTotal;
+            buyer.pendingRecovery = (buyer.pendingRecovery || 0) + balance;
+
+            if (paid > 0) {
+                appState.financials.unshift({
+                    date, type: 'PROFIT', desc: `Sales Payment ${invNum}`, party: buyer.name, amount: paid
+                });
+            }
+            if (balance > 0) {
+                appState.financials.unshift({
+                    date, type: 'RECOVERY', desc: `Balance Due ${invNum}`, party: buyer.name, amount: balance
+                });
+            }
+
+            saveState();
+            viewInvoiceModal(invNum);
+        }
+
+        function viewInvoiceModal(invNum) {
+            const inv = appState.invoices.find(i => i.invNum === invNum);
+            if (!inv) return;
+
+            document.getElementById('pvInvNumber').innerText = inv.invNum;
+            document.getElementById('pvInvDate').innerText = `Date: ${inv.date}`;
+            document.getElementById('pvBuyerName').innerText = inv.buyerName;
+            document.getElementById('pvBuyerPhone').innerText = inv.buyerPhone;
+            document.getElementById('pvRxDetails').innerText = inv.rxDetails;
+
+            const tbody = document.getElementById('pvItemsTableBody');
+            tbody.innerHTML = inv.items.map(i => `
+                <tr>
+                    <td class="py-2 font-medium">${i.title}</td>
+                    <td class="py-2 text-center">${i.qty}</td>
+                    <td class="py-2 text-right">${formatPKR(i.price)}</td>
+                    <td class="py-2 text-right font-bold">${formatPKR(i.qty * i.price)}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('pvSubtotal').innerText = formatPKR(inv.subtotal);
+            document.getElementById('pvTax').innerText = formatPKR(inv.tax);
+            document.getElementById('pvGrandTotal').innerText = formatPKR(inv.total);
+            document.getElementById('pvPaid').innerText = formatPKR(inv.paid);
+            document.getElementById('pvBalance').innerText = formatPKR(inv.balance);
+
+            openModal('printableInvoiceModal');
+        }
+
+        function handleSaveBuyer(e) {
+            e.preventDefault();
+            const name = document.getElementById('modalBuyerName').value;
+            const phone = document.getElementById('modalBuyerPhone').value;
+            const rx = document.getElementById('modalBuyerRx').value;
+
+            appState.buyers.push({
+                id: `BUY-${Math.floor(100 + Math.random() * 900)}`,
+                name, phone, rx, purchases: 0, pendingRecovery: 0
+            });
+
+            saveState();
+            closeModal('quickAddBuyerModal');
+            e.target.reset();
+        }
+
+        function handleSaveSeller(e) {
+            e.preventDefault();
+            const name = document.getElementById('modalSellerName').value;
+            const company = document.getElementById('modalSellerCompany').value;
+            const items = document.getElementById('modalSellerItems').value;
+            const dues = parseFloat(document.getElementById('modalSellerDues').value) || 0;
+
+            appState.sellers.push({
+                id: `SEL-${Math.floor(200 + Math.random() * 900)}`,
+                name, company, items, phone: '+92 (800) 555-OPT', dues, status: 'Active'
+            });
+
+            if (dues > 0) {
+                appState.financials.unshift({
+                    date: new Date().toISOString().split('T')[0],
+                    type: 'LOSS',
+                    desc: `Payable to ${company}`,
+                    party: name,
+                    amount: dues
+                });
+            }
+
+            saveState();
+            closeModal('addSellerModal');
+            e.target.reset();
+        }
+
+        function handleSaveStock(e) {
+            e.preventDefault();
+            const name = document.getElementById('modalStockName').value;
+            const category = document.getElementById('modalStockCategory').value;
+            const price = parseFloat(document.getElementById('modalStockPrice').value) || 0;
+            const stock = parseInt(document.getElementById('modalStockQty').value) || 0;
+
+            appState.inventory.push({
+                id: `OPT-${Math.floor(10 + Math.random() * 90)}`,
+                name, category, price, stock
+            });
+
+            saveState();
+            closeModal('addStockModal');
+            e.target.reset();
+        }
+
+        function deleteBuyer(id) {
+            appState.buyers = appState.buyers.filter(b => b.id !== id);
+            saveState();
+        }
+
+        function deleteSeller(id) {
+            appState.sellers = appState.sellers.filter(s => s.id !== id);
+            saveState();
+        }
+
+        function deleteStock(id) {
+            appState.inventory = appState.inventory.filter(i => i.id !== id);
+            saveState();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAllViews();
+            switchTab('dashboard');
+        });
+    </script>
+</body>
+</html>
